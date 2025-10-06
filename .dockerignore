@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation (not needed in container)
+docs/
+*.md
+!backend/README.md
+
+# Data (raw data not needed in container)
+data/raw/
+data/clean/*.csv
+
+# Keep only sample data
+!data/sample/
+
+# Tests (not needed in production)
+backend/test_*.py
+notebooks/
+
+# Other
+*.log
+.env
