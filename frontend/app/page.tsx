@@ -2,8 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Rocket, Database, BarChart3, Brain } from 'lucide-react';
 import Starfield from '@/components/Starfield';
 
 const START_SPEED = 1.01;
@@ -46,7 +44,7 @@ export default function HomePage() {
     
     setIsWarping(true);
     
-    const duration = 3000; // 3 seconds
+    const duration = 3000;
     const startTime = performance.now();
     const startSpeed = speedRef.current;
 
@@ -73,176 +71,88 @@ export default function HomePage() {
   };
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-black text-white">
+    <div className="relative min-h-screen w-full overflow-hidden bg-black text-white font-sans selection:bg-white selection:text-black">
       {/* Starfield Background */}
       <Starfield className="z-0" speed={warpSpeed} progress={backgroundProgress} />
 
-      {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="max-w-7xl mx-auto">
-          <div className={`relative z-10 pb-8 sm:pb-16 md:pb-20 lg:w-full lg:pb-28 xl:pb-32 transition-all duration-700 ease-out ${contentVisibilityClasses}`}>
-            <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-              <div className="text-center">
-                <h1 className="text-4xl tracking-tight font-extrabold sm:text-5xl md:text-6xl">
-                  <span className="block bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">Exoplanet Classification</span>
-                  <span className="block bg-clip-text text-transparent bg-gradient-to-b from-blue-400 to-blue-600">Powered by Machine Learning</span>
-                </h1>
-                <p className="mt-3 max-w-md mx-auto text-base text-white/70 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-                  Classify NASA Kepler exoplanet candidates using state-of-the-art Random Forest and LightGBM models.
-                  Achieve 91-93% accuracy with our production-ready API.
-                </p>
-                <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-                  <div className="rounded-md shadow">
-                    <button
-                      onClick={handleWarpToDemo}
-                      disabled={isWarping}
-                      className="group w-full flex items-center justify-center px-8 py-3 border border-white/60 text-base font-medium rounded-md text-white/90 hover:border-white hover:bg-white hover:text-black transition-all duration-300 md:py-4 md:text-lg md:px-10 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isWarping ? 'Engaging Warp Drive...' : 'Try Demo'}
-                      <span className={`ml-2 transition-transform ${isWarping ? 'animate-pulse' : 'group-hover:translate-x-1'}`}>→</span>
-                    </button>
-                  </div>
-                  <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                    <Link
-                      href="/dataset"
-                      className="w-full flex items-center justify-center px-8 py-3 border border-white/60 text-base font-medium rounded-md text-white/90 hover:border-white hover:bg-white hover:text-black transition-all duration-300 md:py-4 md:text-lg md:px-10"
-                    >
-                      Explore Data
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </main>
-          </div>
-        </div>
-      </div>
-
-      {/* Stats Section */}
-      <div className={`relative z-10 bg-blue-600/10 backdrop-blur-sm border-y border-white/10 transition-all duration-700 ease-out ${contentVisibilityClasses}`}>
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:py-16 sm:px-6 lg:px-8 lg:py-20">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-              Production-Ready ML Models
-            </h2>
-            <p className="mt-3 text-xl text-white/60 sm:mt-4">
-              Trained on 9,564 NASA Kepler observations
+      {/* Main Content */}
+      <main
+        className={`relative z-10 mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center px-6 transition-all duration-700 ease-out ${contentVisibilityClasses}`}
+      >
+        {/* Hero Section */}
+        <section className="w-full text-center space-y-8">
+          <h1 className="text-7xl md:text-9xl font-light tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">
+            FermiX
+          </h1>
+          
+          <div className="space-y-4 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl font-light text-white/80 leading-relaxed">
+              AI and Machine Learning-powered exoplanet detection using NASA&apos;s Kepler, K2, and TESS data.
             </p>
-          </div>
-          <dl className="mt-10 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8">
-            <div className="flex flex-col">
-              <dt className="order-2 mt-2 text-lg leading-6 font-medium text-white/60">
-                Accuracy
-              </dt>
-              <dd className="order-1 text-5xl font-extrabold text-white">93%</dd>
-            </div>
-            <div className="flex flex-col mt-10 sm:mt-0">
-              <dt className="order-2 mt-2 text-lg leading-6 font-medium text-white/60">
-                Features
-              </dt>
-              <dd className="order-1 text-5xl font-extrabold text-white">103</dd>
-            </div>
-            <div className="flex flex-col mt-10 sm:mt-0">
-              <dt className="order-2 mt-2 text-lg leading-6 font-medium text-white/60">
-                Models
-              </dt>
-              <dd className="order-1 text-5xl font-extrabold text-white">2</dd>
-            </div>
-          </dl>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div className={`relative z-10 py-12 transition-all duration-700 ease-out ${contentVisibilityClasses}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:text-center">
-            <h2 className="text-base text-blue-400 font-semibold tracking-wide uppercase">Features</h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
-              Everything you need for exoplanet analysis
+            <p className="text-lg md:text-xl font-extralight text-white/60 leading-relaxed">
+              Explore and upload datasets, visualize predictions, and train your own models, or use our team&apos;s pre-trained LightGBM, Random Forest, and CNN models to identify potential exoplanets.
             </p>
           </div>
 
-          <div className="mt-10">
-            <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
-              <div className="relative">
-                <dt>
-                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500/20 border border-blue-400/30 text-blue-400">
-                    <Brain className="h-6 w-6" />
-                  </div>
-                  <p className="ml-16 text-lg leading-6 font-medium text-white">ML Models</p>
-                </dt>
-                <dd className="mt-2 ml-16 text-base text-white/60">
-                  Random Forest and LightGBM models with 91-93% accuracy and 0.95+ ROC-AUC scores.
-                </dd>
-              </div>
-
-              <div className="relative">
-                <dt>
-                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500/20 border border-blue-400/30 text-blue-400">
-                    <Database className="h-6 w-6" />
-                  </div>
-                  <p className="ml-16 text-lg leading-6 font-medium text-white">NASA Data</p>
-                </dt>
-                <dd className="mt-2 ml-16 text-base text-white/60">
-                  9,564 Kepler observations with 103 orbital and stellar parameters.
-                </dd>
-              </div>
-
-              <div className="relative">
-                <dt>
-                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500/20 border border-blue-400/30 text-blue-400">
-                    <BarChart3 className="h-6 w-6" />
-                  </div>
-                  <p className="ml-16 text-lg leading-6 font-medium text-white">Interactive Visualizations</p>
-                </dt>
-                <dd className="mt-2 ml-16 text-base text-white/60">
-                  Explore feature importance, correlations, and model performance with interactive charts.
-                </dd>
-              </div>
-
-              <div className="relative">
-                <dt>
-                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500/20 border border-blue-400/30 text-blue-400">
-                    <Rocket className="h-6 w-6" />
-                  </div>
-                  <p className="ml-16 text-lg leading-6 font-medium text-white">REST API</p>
-                </dt>
-                <dd className="mt-2 ml-16 text-base text-white/60">
-                  FastAPI backend with interactive Swagger documentation and &lt; 50ms prediction latency.
-                </dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-      </div>
-
-      {/* CTA Section */}
-      <div className={`relative z-10 bg-blue-600/10 backdrop-blur-sm border-t border-white/10 transition-all duration-700 ease-out ${contentVisibilityClasses}`}>
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-          <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-            <span className="block">Ready to get started?</span>
-            <span className="block text-blue-400">Try the demo now.</span>
-          </h2>
-          <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-            <div className="inline-flex rounded-md shadow">
-              <button
-                onClick={handleWarpToDemo}
-                disabled={isWarping}
-                className="inline-flex items-center justify-center px-5 py-3 border border-white/60 text-base font-medium rounded-md text-white bg-blue-600/20 hover:bg-blue-600/40 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          <div className="pt-4 space-y-6">
+            <button
+              onClick={handleWarpToDemo}
+              disabled={isWarping}
+              className="group inline-flex items-center gap-2 rounded-full border border-white/60 px-12 py-4 text-base tracking-wide font-medium text-white/90 hover:border-white hover:bg-white hover:text-black transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isWarping ? 'Engaging Warp Drive...' : 'Try Demo'}
+              <span className={`transition-transform ${isWarping ? 'animate-pulse' : 'group-hover:translate-x-1'}`}>→</span>
+            </button>
+            
+            <div className="flex justify-center">
+              <a
+                href="https://github.com/jorgexe/fermix"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/50 hover:text-white transition-colors duration-200"
+                aria-label="View on GitHub"
               >
-                {isWarping ? 'Warping...' : 'Launch Demo'}
-              </button>
-            </div>
-            <div className="ml-3 inline-flex rounded-md shadow">
-              <Link
-                href="/about"
-                className="inline-flex items-center justify-center px-5 py-3 border border-white/60 text-base font-medium rounded-md text-white hover:bg-white/10 transition-colors duration-300"
-              >
-                Learn More
-              </Link>
+                <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                </svg>
+              </a>
             </div>
           </div>
+        </section>
+      </main>
+
+      {/* Footer with Links */}
+      <footer
+        className={`relative z-10 py-8 text-center transition-all duration-700 ease-out ${contentVisibilityClasses}`}
+      >
+        <div className="flex items-center justify-center gap-6 mb-4">
+          <a
+            href="https://github.com/jorgexe/fermix"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/50 hover:text-white transition-colors duration-200"
+            aria-label="GitHub Repository"
+          >
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+            </svg>
+          </a>
+          <a
+            href="https://www.nasa.gov/kepler"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/50 hover:text-white transition-colors duration-200"
+            aria-label="NASA Kepler Mission"
+          >
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 3.18l7 3.5v6.32c0 4.31-2.8 8.36-7 9.84-4.2-1.48-7-5.53-7-9.84V8.68l7-3.5z"/>
+            </svg>
+          </a>
         </div>
-      </div>
+        <p className="text-xs tracking-wide text-white/40 leading-relaxed">
+          Built for NASA Space Apps Challenge 2025 – Team FermiX (UABC)
+        </p>
+      </footer>
     </div>
   );
 }
