@@ -1,43 +1,61 @@
 export function Footer() {
   return (
-    <footer className="bg-gray-50 border-t border-gray-200">
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-              Project
-            </h3>
-            <ul className="mt-4 space-y-4">
-              <li><a href="/about" className="text-base text-gray-500 hover:text-gray-900">About</a></li>
-              <li><a href="/model" className="text-base text-gray-500 hover:text-gray-900">Model Card</a></li>
-              <li><a href="https://github.com/jorgexe/fermix" target="_blank" rel="noopener noreferrer" className="text-base text-gray-500 hover:text-gray-900">GitHub</a></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-              Resources
-            </h3>
-            <ul className="mt-4 space-y-4">
-              <li><a href={process.env.NEXT_PUBLIC_API_BASE_URL?.replace('/api/v1', '/api/v1/docs') || '#'} target="_blank" rel="noopener noreferrer" className="text-base text-gray-500 hover:text-gray-900">API Documentation</a></li>
-              <li><a href="https://exoplanetarchive.ipac.caltech.edu/" target="_blank" rel="noopener noreferrer" className="text-base text-gray-500 hover:text-gray-900">NASA Exoplanet Archive</a></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-              Tech Stack
-            </h3>
-            <p className="mt-4 text-base text-gray-500">
-              Next.js • FastAPI • scikit-learn • LightGBM • Railway • Vercel
+    <footer className="border-t border-white/10 bg-black/80 text-gray-300 backdrop-blur">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-12 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.3em] text-gray-500">FermiX</p>
+            <p className="text-sm leading-relaxed text-gray-400">
+              Exploring exoplanets with machine learning models trained on NASA Kepler, K2, and TESS missions.
             </p>
           </div>
+
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Navigate</p>
+            <div className="flex flex-col gap-2 text-sm text-gray-400">
+              <a href="/about" className="transition hover:text-white">About</a>
+              <a href="/model" className="transition hover:text-white">Model Card</a>
+              <a
+                href="https://github.com/jorgexe/fermix"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-white"
+              >
+                GitHub
+              </a>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Resources</p>
+            <div className="flex flex-col gap-2 text-sm text-gray-400">
+              <a
+                href={process.env.NEXT_PUBLIC_API_BASE_URL?.replace('/api/v1', '/api/v1/docs') || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-white"
+              >
+                API Documentation
+              </a>
+              <a
+                href="https://exoplanetarchive.ipac.caltech.edu/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-white"
+              >
+                NASA Exoplanet Archive
+              </a>
+            </div>
+          </div>
         </div>
-        
-        <div className="mt-8 border-t border-gray-200 pt-8">
-          <p className="text-base text-gray-400 text-center">
-            © 2025 Fermix. Built with NASA Kepler data.
-          </p>
+
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-[13px] text-gray-500 sm:flex-row">
+          <p>© 2025 FermiX. Built with NASA data.</p>
+          <div className="inline-flex items-center gap-4 text-xs uppercase tracking-[0.3em] text-gray-600">
+            <span>Next.js</span>
+            <span>FastAPI</span>
+            <span>LightGBM</span>
+          </div>
         </div>
       </div>
     </footer>

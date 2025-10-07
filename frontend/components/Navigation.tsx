@@ -1,8 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Rocket } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const navItems = [
   { href: '/', label: 'Home' },
@@ -16,43 +17,86 @@ const navItems = [
 
 export function Navigation() {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const isActive = (href: string) => pathname === href;
 
   return (
-    <nav className="bg-white border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <Link href="/" className="flex items-center">
-              <Rocket className="h-8 w-8 text-blue-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900">Fermix</span>
-            </Link>
-          </div>
-          
-          <div className="flex space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                  pathname === item.href
-                    ? 'border-blue-500 text-gray-900'
-                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <a
-              href={process.env.NEXT_PUBLIC_API_BASE_URL?.replace('/api/v1', '/api/v1/docs') || '#'}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-black/80 text-white backdrop-blur">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+        <Link href="/" className="text-lg font-semibold text-white">
+          FermiX
+        </Link>
+
+        <button
+          type="button"
+          onClick={() => setIsMenuOpen((open) => !open)}
+          className="inline-flex items-center justify-center rounded-full border border-white/40 bg-white/10 px-3 py-2 text-sm text-white shadow-sm transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/60 sm:hidden"
+          aria-label="Toggle navigation menu"
+        >
+          {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
+
+        <div className="hidden items-center gap-8 text-sm font-medium text-white/70 sm:flex">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`relative transition-colors hover:text-white ${
+                isActive(item.href) ? 'text-white' : ''
+              }`}
             >
-              API Docs
-            </a>
-          </div>
+              {item.label}
+              {isActive(item.href) && (
+                <span className="absolute inset-x-0 -bottom-2 h-[2px] rounded-full bg-white/90" />
+              )}
+            </Link>
+          ))}
+          <a
+            href={process.env.NEXT_PUBLIC_API_BASE_URL?.replace('/api/v1', '/api/v1/docs') || '#'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative transition-colors text-white/70 hover:text-white"
+          >
+            API Docs
+          </a>
+        </div>
+      </nav>
+
+      {/* Mobile navigation */}
+      <div
+        className={`sm:hidden transition-[max-height] duration-300 ease-in-out ${
+          isMenuOpen ? 'max-h-96' : 'max-h-0'
+        } overflow-hidden border-t border-white/10 bg-black/90 text-white backdrop-blur-lg shadow-lg`}
+      >
+        <div className="space-y-1 px-4 py-4 text-sm font-medium text-white/80">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setIsMenuOpen(false)}
+              className={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors ${
+                isActive(item.href)
+                  ? 'bg-white/10 text-white'
+                  : 'hover:bg-white/5'
+              }`}
+            >
+              {item.label}
+              {isActive(item.href) && <span className="text-xs uppercase">Now</span>}
+            </Link>
+          ))}
+          <a
+            href={process.env.NEXT_PUBLIC_API_BASE_URL?.replace('/api/v1', '/api/v1/docs') || '#'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-between rounded-lg px-3 py-2 transition-colors hover:bg-white/5"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            API Docs
+            <span className="text-xs uppercase">New</span>
+          </a>
         </div>
       </div>
-    </nav>
+    </header>
   );
 }
