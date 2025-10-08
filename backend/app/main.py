@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import pandas as pd
 import json
+import os
 from typing import Optional
 
 from .config import settings
@@ -27,11 +28,20 @@ async def lifespan(app: FastAPI):
     print(f"\n🚀 Starting {settings.PROJECT_NAME}")
     print(f"Version: {settings.VERSION}")
     print(f"API Prefix: {settings.API_V1_PREFIX}")
+    print(f"ALLOWED_ORIGINS: {settings.ALLOWED_ORIGINS}")
+    print(f"PORT: {os.getenv('PORT', '8000')}")
+    
+    # Verify paths exist
+    import os as os_check
+    print(f"Models dir exists: {os_check.path.exists(settings.MODELS_DIR)}")
+    print(f"Sample data exists: {os_check.path.exists(settings.SAMPLE_DATASET_PATH)}")
     
     # Load ML models
     success = model_manager.load_models()
     if not success:
         print("⚠️  Warning: Models failed to load. Prediction endpoint will not work.")
+    else:
+        print("✓ Models loaded successfully")
     
     yield
     
