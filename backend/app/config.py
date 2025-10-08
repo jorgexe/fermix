@@ -2,9 +2,10 @@
 Configuration and Settings
 Uses Pydantic Settings for environment variable management
 """
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import field_validator
 from pathlib import Path
-from typing import List
+from typing import List, Union
 
 
 class Settings(BaseSettings):
@@ -16,13 +17,25 @@ class Settings(BaseSettings):
     VERSION: str = "1.0.0"
     DESCRIPTION: str = "REST API for exoplanet classification using ML models"
     
-    # CORS
-    ALLOWED_ORIGINS: List[str] = [
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://localhost:8080",
-        "*"  # Fallback - restrict in production
-    ]
+    # CORS - Accept string (comma-separated) or list
+    ALLOWED_ORIGINS: Union[str, List[str]] = "*"
+    
+    @field_validator('ALLOWED_ORIGINS', mode='before')
+    @classmethod
+    def parse_allowed_origins(cls, v: Union[str, List[str], None]) -> List[str]:
+        """Parse ALLOWED_ORIGINS from string or list"""
+        if isinstance(v, str):
+            # If empty or whitespace, default to wildcard
+            if not v or v.strip() == "":
+                return ["*"]
+            # If it's a single asterisk, return as list
+            if v.strip() == "*":
+                return ["*"]
+            # Split comma-separated values
+            return [origin.strip() for origin in v.split(",") if origin.strip()]
+        if v is None:
+            return ["*"]
+        return v
     
     # Paths (relative to project root)
     BASE_DIR: Path = Path(__file__).parent.parent.parent
@@ -48,9 +61,11 @@ class Settings(BaseSettings):
     # Model Selection
     DEFAULT_MODEL: str = "lgbm"  # or "rf"
     
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        case_sensitive=True,
+        extra="ignore"
+    )
 
 
 # Create global settings instance
